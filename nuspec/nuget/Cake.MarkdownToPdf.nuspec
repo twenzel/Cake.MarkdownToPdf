@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+    <metadata>
+        <id>Cake.MarkdownToPdf</id>
+        <version>0.0.0</version>
+        <title>Cake.MarkdownToPdf</title>
+        <authors>Toni Wenzel</authors>
+        <owners>Toni Wenzel</owners>
+        <licenseUrl>https://github.com/twenzel/Cake.MarkdownToPdf/blob/master/LICENSE.md</licenseUrl>
+        <projectUrl>https://github.com/twenzel/Cake.MarkdownToPdf</projectUrl>        
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Cake Addin for converting markdown files to pdf.</description>        
+        <tags>markdown pdf Cake</tags>
+		<dependencies>
+			<dependency id="FSharp.Markdown.Pdf" version="0.3.0" />			
+		</dependencies>
+    </metadata>
+    <files>
+        <file src="Cake.MarkdownToPdf.dll" target="lib/net45"/>
+        <file src="Cake.MarkdownToPdf.XML" target="lib/net45"/>
+    </files>
+</package>
