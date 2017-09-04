@@ -29,14 +29,31 @@ namespace Cake.MarkdownToPdf
         [CakeMethodAlias]
         public static void MarkdownFileToPdf(this ICakeContext ctx, string markdownFile, string outputFile)
         {
+            if (!Path.IsPathRooted(markdownFile))
+                markdownFile = Path.GetFullPath(markdownFile);
+
+            if (!Path.IsPathRooted(outputFile))
+                outputFile = Path.GetFullPath(outputFile);
+
+
             if (!File.Exists(markdownFile))
             {
                 ctx.Log.Error($"Markdown file '{markdownFile}' does not exist!");
                 return;
             }
 
-            ctx.Log.Information($"Transforming {markdownFile} to {outputFile}...");
-            MarkdownPdf.Transform(File.ReadAllText(markdownFile), outputFile);
+            var oldDirectory = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(markdownFile));
+
+            try
+            {
+                ctx.Log.Information($"Transforming '{markdownFile}' to '{outputFile}'...");
+                MarkdownPdf.Transform(File.ReadAllText(markdownFile), outputFile);
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(oldDirectory);
+            }
         }
     }
 }

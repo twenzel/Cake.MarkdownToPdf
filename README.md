@@ -8,5 +8,10 @@ Cake addin to convert markdown files to pdf. This addin uses [FSharp.Markdown.Pd
 Directly in your build script via a Cake `#addin` directive:
 
 ```csharp
-#addin nuget:?package=Cake.MarkdownToPdf
+#addin "Cake.MarkdownToPdf"
+
+Task("Convert")
+  .Does(() => {        
+    MarkdownFileToPdf("readme.md", "output.pdf");
+});
 ```
