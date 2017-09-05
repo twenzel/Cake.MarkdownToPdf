@@ -8,6 +8,7 @@
         <owners>Toni Wenzel</owners>
         <licenseUrl>https://github.com/twenzel/Cake.MarkdownToPdf/blob/master/LICENSE.md</licenseUrl>
         <projectUrl>https://github.com/twenzel/Cake.MarkdownToPdf</projectUrl>        
+		<iconUrl>https://cdn.rawgit.com/cake-contrib/graphics/a5cf0f881c390650144b2243ae551d5b9f836196/png/cake-contrib-medium.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Cake Addin for converting markdown files to pdf.</description>        
         <tags>markdown pdf Cake</tags>		
