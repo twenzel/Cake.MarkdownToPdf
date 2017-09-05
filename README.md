@@ -13,5 +13,8 @@ Directly in your build script via a Cake `#addin` directive:
 Task("Convert")
   .Does(() => {        
     MarkdownFileToPdf("readme.md", "output.pdf");
+	
+	// or markdown text
+	MarkdownToPdf("Some markdown formated text...", "output.pdf");
 });
 ```
