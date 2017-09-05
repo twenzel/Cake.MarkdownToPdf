@@ -50,7 +50,7 @@ namespace Cake.MarkdownToPdf
             try
             {
                 ctx.Log.Information($"Transforming '{markdownFile}' to '{outputFile}'...");
-                ConvertTextToPdf(File.ReadAllText(markdownFile), outputFile);                
+                ConvertTextToPdf(File.ReadAllText(markdownFile), outputFile);
             }
             finally
             {
@@ -112,7 +112,7 @@ namespace Cake.MarkdownToPdf
 
         private static void ReplaceHtmlEntities(DocumentObjectCollection elements)
         {
-            foreach(var element in elements)
+            foreach (var element in elements)
             {
                 switch (element)
                 {
@@ -137,12 +137,9 @@ namespace Cake.MarkdownToPdf
                     case MigraDoc.DocumentObjectModel.Tables.Cell cell:
                         ReplaceHtmlEntities(cell.Elements);
                         break;
-                    case Character c:
-                        
-                        break;
                     default:
                         break;
-                }                           
+                }
             }
         }
 
@@ -151,10 +148,10 @@ namespace Cake.MarkdownToPdf
             textElement.Content = System.Net.WebUtility.HtmlDecode(textElement.Content.Replace("&amp;", "&"));
         }
 
-            private static void ApplyDefaultStyle(MigraDoc.DocumentObjectModel.Document document, MigraDoc.DocumentObjectModel.Section section)
+        private static void ApplyDefaultStyle(MigraDoc.DocumentObjectModel.Document document, MigraDoc.DocumentObjectModel.Section section)
         {
             var normal = document.Styles[FSharp.Markdown.Pdf.MarkdownStyleNames.Normal];
-            normal.Font = new MigraDoc.DocumentObjectModel.Font("Helvetica", MigraDoc.DocumentObjectModel.Unit.FromPoint(14));            
+            normal.Font = new MigraDoc.DocumentObjectModel.Font("Helvetica", MigraDoc.DocumentObjectModel.Unit.FromPoint(14));
 
 
             var heading1 = document.Styles[FSharp.Markdown.Pdf.MarkdownStyleNames.Heading1];
@@ -201,7 +198,7 @@ namespace Cake.MarkdownToPdf
             code.ParagraphFormat.Shading.Color = new MigraDoc.DocumentObjectModel.Color(248, 248, 248);
             code.ParagraphFormat.Shading.Visible = true;
             code.ParagraphFormat.SpaceAfter = MigraDoc.DocumentObjectModel.Unit.FromPoint(15);
-            code.ParagraphFormat.SpaceBefore = MigraDoc.DocumentObjectModel.Unit.FromPoint(15);          
+            code.ParagraphFormat.SpaceBefore = MigraDoc.DocumentObjectModel.Unit.FromPoint(15);
 
             var hyperlink = document.Styles[FSharp.Markdown.Pdf.MarkdownStyleNames.Hyperlink];
             hyperlink.Font.Color = new MigraDoc.DocumentObjectModel.Color(65, 131, 196);
