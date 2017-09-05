@@ -4,6 +4,7 @@ using Cake.Core.Diagnostics;
 using FSharp.Markdown.Pdf;
 using System;
 using System.IO;
+using MigraDoc.DocumentObjectModel;
 
 namespace Cake.MarkdownToPdf
 {
@@ -98,7 +99,7 @@ namespace Cake.MarkdownToPdf
             var section = d.AddSection();
 
             MarkdownPdf.AddMarkdown(d, section, FSharp.Markdown.Markdown.Parse(markdownText, Environment.NewLine));
-
+            ReplaceHtmlEntities(section.Elements);
             ApplyDefaultStyle(d, section);
 
             var r = new MigraDoc.Rendering.PdfDocumentRenderer(false, PdfSharp.Pdf.PdfFontEmbedding.Always)
@@ -109,7 +110,48 @@ namespace Cake.MarkdownToPdf
             r.PdfDocument.Save(outputFile);
         }
 
-        private static void ApplyDefaultStyle(MigraDoc.DocumentObjectModel.Document document, MigraDoc.DocumentObjectModel.Section section)
+        private static void ReplaceHtmlEntities(DocumentObjectCollection elements)
+        {
+            foreach(var element in elements)
+            {
+                switch (element)
+                {
+                    case Paragraph para:
+                        ReplaceHtmlEntities(para.Elements);
+                        break;
+                    case FormattedText formattedText:
+                        ReplaceHtmlEntities(formattedText.Elements);
+                        break;
+                    case Hyperlink hyperlink:
+                        ReplaceHtmlEntities(hyperlink.Elements);
+                        break;
+                    case Text text:
+                        ReplaceHtmlEntities(text);
+                        break;
+                    case MigraDoc.DocumentObjectModel.Tables.Table table:
+                        ReplaceHtmlEntities(table.Rows);
+                        break;
+                    case MigraDoc.DocumentObjectModel.Tables.Row row:
+                        ReplaceHtmlEntities(row.Cells);
+                        break;
+                    case MigraDoc.DocumentObjectModel.Tables.Cell cell:
+                        ReplaceHtmlEntities(cell.Elements);
+                        break;
+                    case Character c:
+                        
+                        break;
+                    default:
+                        break;
+                }                           
+            }
+        }
+
+        private static void ReplaceHtmlEntities(Text textElement)
+        {
+            textElement.Content = System.Net.WebUtility.HtmlDecode(textElement.Content.Replace("&amp;", "&"));
+        }
+
+            private static void ApplyDefaultStyle(MigraDoc.DocumentObjectModel.Document document, MigraDoc.DocumentObjectModel.Section section)
         {
             var normal = document.Styles[FSharp.Markdown.Pdf.MarkdownStyleNames.Normal];
             normal.Font = new MigraDoc.DocumentObjectModel.Font("Helvetica", MigraDoc.DocumentObjectModel.Unit.FromPoint(14));            
