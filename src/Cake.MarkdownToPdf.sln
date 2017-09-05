@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.MarkdownToPdf", "Cake.MarkdownToPdf\Cake.MarkdownToPdf.csproj", "{8731FA2B-39FA-4D77-BDE6-897B2D45CE4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.MarkdownToPdf.Tests", "Cake.MarkdownToPdf.Tests\Cake.MarkdownToPdf.Tests.csproj", "{AFDB449F-60E6-48FD-B8EE-9BA85D5E487D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8731FA2B-39FA-4D77-BDE6-897B2D45CE4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8731FA2B-39FA-4D77-BDE6-897B2D45CE4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8731FA2B-39FA-4D77-BDE6-897B2D45CE4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFDB449F-60E6-48FD-B8EE-9BA85D5E487D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFDB449F-60E6-48FD-B8EE-9BA85D5E487D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFDB449F-60E6-48FD-B8EE-9BA85D5E487D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFDB449F-60E6-48FD-B8EE-9BA85D5E487D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
