@@ -5,6 +5,7 @@ using FSharp.Markdown.Pdf;
 using System;
 using System.IO;
 using MigraDoc.DocumentObjectModel;
+using System.Text.RegularExpressions;
 
 namespace Cake.MarkdownToPdf
 {
@@ -98,7 +99,9 @@ namespace Cake.MarkdownToPdf
             var d = new MigraDoc.DocumentObjectModel.Document();
             var section = d.AddSection();
 
-            MarkdownPdf.AddMarkdown(d, section, FSharp.Markdown.Markdown.Parse(markdownText, Environment.NewLine));
+            markdownText = RemoveSpareLineEndings(markdownText);
+
+            MarkdownPdf.AddMarkdown(d, section, markdownText);
             ReplaceHtmlEntities(section.Elements);
             ApplyDefaultStyle(d, section);
 
@@ -108,6 +111,17 @@ namespace Cake.MarkdownToPdf
             };
             r.RenderDocument();
             r.PdfDocument.Save(outputFile);
+        }
+
+        private static string RemoveSpareLineEndings(string markdownText)
+        {
+            markdownText = markdownText.Replace(Environment.NewLine + Environment.NewLine, "\n\n\n\n");
+
+            markdownText = Regex.Replace(markdownText, "(\\r\\n(\\w))", " $2");
+
+            markdownText = markdownText.Replace("\n\n\n\n", Environment.NewLine + Environment.NewLine);            
+
+            return markdownText;
         }
 
         private static void ReplaceHtmlEntities(DocumentObjectCollection elements)
