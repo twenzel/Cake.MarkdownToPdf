@@ -6,12 +6,12 @@ namespace Cake.MarkdownToPdf.Tests
 {
     public class MarkdownFileToPdfTests
     {
-        [Fact]
-        public void ConvertFile()
-        {
-            ICakeContext context = Substitute.For<ICakeContext>();
+        //[Fact]
+        //public void ConvertFile()
+        //{
+        //    ICakeContext context = Substitute.For<ICakeContext>();
 
-            MarkdownToPdfAliases.MarkdownFileToPdf(context, "Assets/Test.md", "Testoutput.pdf");
-        }
+        //    MarkdownToPdfAliases.MarkdownFileToPdf(context, "Assets/Test.md", "Testoutput.pdf");
+        //}
     }
 }
