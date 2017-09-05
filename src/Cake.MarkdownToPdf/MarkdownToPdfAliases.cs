@@ -49,7 +49,7 @@ namespace Cake.MarkdownToPdf
             try
             {
                 ctx.Log.Information($"Transforming '{markdownFile}' to '{outputFile}'...");
-                MarkdownPdf.Transform(File.ReadAllText(markdownFile), outputFile);
+                ConvertTextToPdf(File.ReadAllText(markdownFile), outputFile);                
             }
             finally
             {
@@ -84,24 +84,29 @@ namespace Cake.MarkdownToPdf
             {
                 ctx.Log.Information($"Transforming markdown text {markdownText.Substring(0, Math.Min(markdownText.Length, 20))}... to '{outputFile}'...");
 
-                var d = new MigraDoc.DocumentObjectModel.Document();
-                var section = d.AddSection();                
-
-                MarkdownPdf.AddMarkdown(d, section, FSharp.Markdown.Markdown.Parse(markdownText, Environment.NewLine));
-
-                ApplyDefaultStyle(d, section);                
-
-                var r = new MigraDoc.Rendering.PdfDocumentRenderer(false, PdfSharp.Pdf.PdfFontEmbedding.Always)
-                {
-                    Document = d
-                };                
-                r.RenderDocument();
-                r.PdfDocument.Save(outputFile);
+                ConvertTextToPdf(markdownText, outputFile);
             }
             finally
             {
                 Directory.SetCurrentDirectory(oldDirectory);
             }
+        }
+
+        private static void ConvertTextToPdf(string markdownText, string outputFile)
+        {
+            var d = new MigraDoc.DocumentObjectModel.Document();
+            var section = d.AddSection();
+
+            MarkdownPdf.AddMarkdown(d, section, FSharp.Markdown.Markdown.Parse(markdownText, Environment.NewLine));
+
+            ApplyDefaultStyle(d, section);
+
+            var r = new MigraDoc.Rendering.PdfDocumentRenderer(false, PdfSharp.Pdf.PdfFontEmbedding.Always)
+            {
+                Document = d
+            };
+            r.RenderDocument();
+            r.PdfDocument.Save(outputFile);
         }
 
         private static void ApplyDefaultStyle(MigraDoc.DocumentObjectModel.Document document, MigraDoc.DocumentObjectModel.Section section)
