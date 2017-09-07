@@ -121,6 +121,11 @@ bezüglich der Architektur und deren Dokumentation.
 | ;*              | gt;*            |                                   |
 +-----------------+-----------------+-----------------------------------+
 
+| Rolle  | Kontakt | Erwartungshaltung |
+| ------------- | ------------- |
+| Head of Development  | Tewstst  | |
+| Head of IT  | second  | |
+
 Randbedingungen {#section-architecture-constraints}
 ===============
 

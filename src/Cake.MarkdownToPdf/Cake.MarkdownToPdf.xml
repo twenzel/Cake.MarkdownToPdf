@@ -4,12 +4,31 @@
         <name>Cake.MarkdownToPdf</name>
     </assembly>
     <members>
+        <member name="T:Cake.MarkdownToPdf.Internal.PdfGenerator">
+            <summary>
+            Converts the html into a pdf file
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Internal.PdfGenerator.ExecutionOutputText">
+            <summary>
+            Gets the console output of the converter tool
+            </summary>
+        </member>
+        <member name="M:Cake.MarkdownToPdf.Internal.PdfGenerator.ConvertToPdf(System.String,System.String,Cake.MarkdownToPdf.PdfSettings)">
+            <summary>
+            Converts the given html file to a pdf file using the settings
+            </summary>
+            <param name="htmlFile"></param>
+            <param name="outputFile"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
         <member name="T:Cake.MarkdownToPdf.MarkdownToPdfAliases">
             <summary>
             Contains functionality to convert markdown to pdf files
             </summary>
         </member>
-        <member name="M:Cake.MarkdownToPdf.MarkdownToPdfAliases.MarkdownFileToPdf(Cake.Core.ICakeContext,System.String,System.String)">
+        <member name="M:Cake.MarkdownToPdf.MarkdownToPdfAliases.MarkdownFileToPdf(Cake.Core.ICakeContext,System.String,System.String,System.Action{Cake.MarkdownToPdf.Settings})">
             <summary>
             Converts a markdown file to pdf file.
             </summary>
@@ -24,8 +43,9 @@
             <param name="ctx">The context</param>
             <param name="markdownFile">The markdown file to convert.</param>
             <param name="outputFile">The name of the pdf file to create.</param>
+            <param name="settingsAction">Settings used for convertion</param>
         </member>
-        <member name="M:Cake.MarkdownToPdf.MarkdownToPdfAliases.MarkdownToPdf(Cake.Core.ICakeContext,System.String,System.String)">
+        <member name="M:Cake.MarkdownToPdf.MarkdownToPdfAliases.MarkdownToPdf(Cake.Core.ICakeContext,System.String,System.String,System.Action{Cake.MarkdownToPdf.Settings})">
             <summary>
             Converts a markdown string to pdf file.
             </summary>
@@ -40,6 +60,47 @@
             <param name="ctx">The context</param>
             <param name="markdownText">The markdown string to convert.</param>
             <param name="outputFile">The name of the pdf file to create.</param>
+            <param name="settingsAction">Settings used for convertion</param>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.Settings">
+            <summary>
+            Settings used for the conversion
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.MarkdownPipeline">
+            <summary>
+            Settings used for parsing markdown
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.Pdf">
+            <summary>
+            Settings for the pdf convert
+            </summary>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.PdfSettings">
+            <summary>
+            Settings for the pdf convert
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.ImageQuality">
+            <summary>
+            Percentage if the output image quality (compression)
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.Margins">
+            <summary>
+            Margins in mm
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.PathToWkhtmltopdf">
+            <summary>
+            Customizable path to wkhtmltopdf tool
+            </summary>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.PdfPageMargins">
+            <summary>
+            Margins in mm
+            </summary>
         </member>
     </members>
 </doc>
