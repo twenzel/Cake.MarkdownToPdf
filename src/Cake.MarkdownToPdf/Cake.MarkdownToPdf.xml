@@ -4,12 +4,31 @@
         <name>Cake.MarkdownToPdf</name>
     </assembly>
     <members>
+        <member name="T:Cake.MarkdownToPdf.Internal.PdfGenerator">
+            <summary>
+            Converts the html into a pdf file
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Internal.PdfGenerator.ExecutionOutputText">
+            <summary>
+            Gets the console output of the converter tool
+            </summary>
+        </member>
+        <member name="M:Cake.MarkdownToPdf.Internal.PdfGenerator.ConvertToPdf(System.String,System.String,Cake.MarkdownToPdf.PdfSettings)">
+            <summary>
+            Converts the given html file to a pdf file using the settings
+            </summary>
+            <param name="htmlFile"></param>
+            <param name="outputFile"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
         <member name="T:Cake.MarkdownToPdf.MarkdownToPdfAliases">
             <summary>
             Contains functionality to convert markdown to pdf files
             </summary>
         </member>
-        <member name="M:Cake.MarkdownToPdf.MarkdownToPdfAliases.MarkdownFileToPdf(Cake.Core.ICakeContext,System.String,System.String)">
+        <member name="M:Cake.MarkdownToPdf.MarkdownToPdfAliases.MarkdownFileToPdf(Cake.Core.ICakeContext,System.String,System.String,System.Action{Cake.MarkdownToPdf.Settings})">
             <summary>
             Converts a markdown file to pdf file.
             </summary>
@@ -18,14 +37,21 @@
             Task("Convert")
               .Does(() => {        
                 MarkdownFileToPdf("readme.md", "output.pdf");
+                
+                // or with settings
+                 MarkdownFileToPdf("readme.md", "output.pdf", settings => {
+                    settings.Theme = Themes.Github
+                    settings.UseAdvancedMarkdownTables();
+                 });
             });
             </code>
             </example>
             <param name="ctx">The context</param>
             <param name="markdownFile">The markdown file to convert.</param>
             <param name="outputFile">The name of the pdf file to create.</param>
+            <param name="settingsAction">Settings used for convertion</param>
         </member>
-        <member name="M:Cake.MarkdownToPdf.MarkdownToPdfAliases.MarkdownToPdf(Cake.Core.ICakeContext,System.String,System.String)">
+        <member name="M:Cake.MarkdownToPdf.MarkdownToPdfAliases.MarkdownToPdf(Cake.Core.ICakeContext,System.String,System.String,System.Action{Cake.MarkdownToPdf.Settings})">
             <summary>
             Converts a markdown string to pdf file.
             </summary>
@@ -40,6 +66,166 @@
             <param name="ctx">The context</param>
             <param name="markdownText">The markdown string to convert.</param>
             <param name="outputFile">The name of the pdf file to create.</param>
+            <param name="settingsAction">Settings used for convertion</param>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.Settings">
+            <summary>
+            Settings used for the conversion
+            </summary>
+        </member>
+        <member name="M:Cake.MarkdownToPdf.Settings.#ctor">
+            <summary>
+            Initialize a new settings instance
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.MarkdownPipeline">
+            <summary>
+            Settings used for parsing markdown
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.CssFile">
+            <summary>
+            Gets or sets the Css file used for rendering the HTML/Pdf
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.HtmlTemplateFile">
+            <summary>
+            Gets or sets a html template file
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.Theme">
+            <summary>
+            Gets or sets the used theme
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.Pdf">
+            <summary>
+            Settings for the pdf convert
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.WorkingDirectory">
+            <summary>
+            Gets or sets the working directory. Used for image retrieving
+            </summary>
+        </member>
+        <member name="M:Cake.MarkdownToPdf.Settings.UseAdvancedMarkdownExtensions">
+            <summary>
+            Calls the UseAdvancedExtensions() on the MarkdownPipelineBuilder.
+            See https://github.com/lunet-io/markdig/blob/master/src/Markdig/MarkdownExtensions.cs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cake.MarkdownToPdf.Settings.UseAdvancedMarkdownTables">
+            <summary>
+            Calls the UsePipeTables() on the MarkdownPipelineBuilder.
+            See https://github.com/lunet-io/markdig/blob/master/src/Markdig/MarkdownExtensions.cs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.PdfSettings">
+            <summary>
+            Settings for the pdf convert
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.PageSize">
+            <summary>
+            Gets or sets the pdf page size
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.Orientation">
+            <summary>
+            Gets or sets the page orientation
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.ImageDpi">
+            <summary>
+            Gets or sets the dpi of the images within the pdf
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.ImageQuality">
+            <summary>
+            Percentage if the output image quality (compression)
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.Margins">
+            <summary>
+            Margins in mm
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.PathToWkhtmltopdf">
+            <summary>
+            Customizable path to wkhtmltopdf tool
+            </summary>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.PdfPageSize">
+            <summary>
+            The Pdf page sizes
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.PdfPageSize.Letter">
+            <summary>
+            Letter format
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.PdfPageSize.A4">
+            <summary>
+            DIN A4 format
+            </summary>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.PdfPageOrientation">
+            <summary>
+            The page orientations
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.PdfPageOrientation.Portrait">
+            <summary>
+            Potrait mode
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.PdfPageOrientation.Landscape">
+            <summary>
+            Landscape mode
+            </summary>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.PdfPageMargins">
+            <summary>
+            Margins in mm
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfPageMargins.Left">
+            <summary>
+            Left margin
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfPageMargins.Right">
+            <summary>
+            Right margin
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfPageMargins.Top">
+            <summary>
+            Top margin
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfPageMargins.Bottom">
+            <summary>
+            Bottom margin
+            </summary>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.Themes">
+            <summary>
+            The html output themes
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.Themes.Default">
+            <summary>
+            Default theme
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.Themes.Github">
+            <summary>
+            Github style
+            </summary>
         </member>
     </members>
 </doc>
