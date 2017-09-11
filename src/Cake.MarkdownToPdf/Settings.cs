@@ -12,6 +12,9 @@ namespace Cake.MarkdownToPdf
     /// </summary>
     public class Settings
     {
+        /// <summary>
+        /// Initialize a new settings instance
+        /// </summary>
         public Settings()
         {
             MarkdownPipeline = new MarkdownPipelineBuilder();
@@ -68,10 +71,19 @@ namespace Cake.MarkdownToPdf
     /// </summary>
     public class PdfSettings
     {
+        /// <summary>
+        /// Gets or sets the pdf page size
+        /// </summary>
         public PdfPageSize PageSize { get; set; } = PdfPageSize.A4;
 
+        /// <summary>
+        /// Gets or sets the page orientation
+        /// </summary>
         public PdfPageOrientation Orientation { get; set; } = PdfPageOrientation.Portrait;
 
+        /// <summary>
+        /// Gets or sets the dpi of the images within the pdf
+        /// </summary>
         public int ImageDpi { get; set; } = 300;
 
         /// <summary>
@@ -90,15 +102,35 @@ namespace Cake.MarkdownToPdf
         public string PathToWkhtmltopdf { get; set; }
     }
 
+    /// <summary>
+    /// The Pdf page sizes
+    /// </summary>
     public enum PdfPageSize
     {
+        /// <summary>
+        /// Letter format
+        /// </summary>
         Letter,
+
+        /// <summary>
+        /// DIN A4 format
+        /// </summary>
         A4,
     }
+    /// <summary>
+    /// The page orientations
+    /// </summary>
 
     public enum PdfPageOrientation
     {
+        /// <summary>
+        /// Potrait mode
+        /// </summary>
         Portrait,
+
+        /// <summary>
+        /// Landscape mode
+        /// </summary>
         Landscape
     }
 
@@ -107,9 +139,24 @@ namespace Cake.MarkdownToPdf
     /// </summary>
     public class PdfPageMargins
     {
+        /// <summary>
+        /// Left margin
+        /// </summary>
         public int Left { get; set; }
+
+        /// <summary>
+        /// Right margin
+        /// </summary>
         public int Right { get; set; }
+
+        /// <summary>
+        /// Top margin
+        /// </summary>
         public int Top { get; set; }
+
+        /// <summary>
+        /// Bottom margin
+        /// </summary>
         public int Bottom { get; set; }
     }
 
