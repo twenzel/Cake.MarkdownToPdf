@@ -17,5 +17,7 @@
         <file src="*.dll" target="lib/net45"/>
         <file src="*.XML" target="lib/net45"/>
 		<file src="*.config" target="lib/net45"/>
+		<file src="wkhtmltopdf.exe" target="lib/net45"/>		
+		<file src="Themes\**\*.*" target="lib/net45/Themes"/>		
     </files>
 </package>

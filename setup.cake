@@ -8,8 +8,10 @@ BuildParameters.SetParameters(context: Context,
                             title: "Cake.MarkdownToPdf",
                             repositoryOwner: "twenzel",
                             repositoryName: "Cake.MarkdownToPdf",
-                            appVeyorAccountName: "twenzel");
+                            appVeyorAccountName: "twenzel",
+							shouldRunInspectCode: false);
 
+				
 BuildParameters.PrintParameters(Context);
 
 
