@@ -11,7 +11,10 @@ namespace Cake.MarkdownToPdf.Tests
         {
             ICakeContext context = Substitute.For<ICakeContext>();
 
-            MarkdownToPdfAliases.MarkdownFileToPdf(context, "Assets/Test.md", "Testoutput.pdf");
+            MarkdownToPdfAliases.MarkdownFileToPdf(context, "Assets/Test.md", "Testoutput.pdf", settings => {
+                settings.UseAdvancedMarkdownTables();
+                settings.Theme = Themes.Github;
+            });
         }
     }
 }

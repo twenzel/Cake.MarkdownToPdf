@@ -892,4 +892,15 @@ Sie sollten relevante Begriffe klar definieren, so dass alle Beteiligten
 | *&lt;Begriff-2*      | *&lt;Definition-2&gt;*                       |
 +----------------------+----------------------------------------------+
 
+oder
+
+| Rolle  | Kontakt | Erwartungshaltung |
+| ------------- | ------------- |
+| Head of Development  | person 1  | |
+| Head of IT  | person 2  | |
+| CIO | person 3  |  |
+| Developer | person 4  |  |
+| Developer | person 6 | alles dokumentiert |
+
+
 
