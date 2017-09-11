@@ -53,10 +53,10 @@ namespace Cake.MarkdownToPdf.Internal
             // in and out files
             sb.Append($"\"{htmlFile}\" \"{outputFile}\" ");
           
-            return Convert(settings.PathToWkhtmltopdf, sb.ToString(), htmlFile);
+            return Convert(settings.PathToWkhtmltopdf, sb.ToString());
         }
 
-        private int Convert(string wkhtmltopdfPath, string switches, string htmlFile)
+        private int Convert(string wkhtmltopdfPath, string switches)
         {
             if (string.IsNullOrEmpty(wkhtmltopdfPath))
                 wkhtmltopdfPath = Path.Combine(AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory, "wkhtmltopdf.exe");
@@ -71,7 +71,6 @@ namespace Cake.MarkdownToPdf.Internal
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     RedirectStandardInput = true,
-                    WorkingDirectory = Path.GetDirectoryName(htmlFile),
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden
                 }

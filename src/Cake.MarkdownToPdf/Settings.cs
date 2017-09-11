@@ -46,6 +46,11 @@ namespace Cake.MarkdownToPdf
         public PdfSettings Pdf { get; } = new PdfSettings();
 
         /// <summary>
+        /// Gets or sets the working directory. Used for image retrieving
+        /// </summary>
+        public string WorkingDirectory { get; set; }
+
+        /// <summary>
         /// Calls the UseAdvancedExtensions() on the MarkdownPipelineBuilder.
         /// See https://github.com/lunet-io/markdig/blob/master/src/Markdig/MarkdownExtensions.cs
         /// </summary>

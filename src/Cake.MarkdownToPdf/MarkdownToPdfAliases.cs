@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using Markdig;
 using Cake.MarkdownToPdf.Internal;
+using System.Reflection;
 
 namespace Cake.MarkdownToPdf
 {
@@ -51,18 +52,10 @@ namespace Cake.MarkdownToPdf
                 return;
             }
 
-            var oldDirectory = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(markdownFile));
 
-            try
-            {
-                ctx.Log.Information($"Transforming '{markdownFile}' to '{outputFile}'...");
-                ConvertTextToPdf(File.ReadAllText(markdownFile), outputFile, settingsAction, ctx.Log);
-            }
-            finally
-            {
-                Directory.SetCurrentDirectory(oldDirectory);
-            }
+            ctx.Log.Information($"Transforming '{markdownFile}' to '{outputFile}'...");
+            ConvertTextToPdf(File.ReadAllText(markdownFile), outputFile, settingsAction, ctx.Log, Path.GetDirectoryName(markdownFile));
+
         }
 
         /// <summary>
@@ -86,22 +79,11 @@ namespace Cake.MarkdownToPdf
             if (!Path.IsPathRooted(outputFile))
                 outputFile = Path.GetFullPath(outputFile);
 
-            var oldDirectory = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(outputFile));
-
-            try
-            {
-                ctx.Log.Information($"Transforming markdown text {markdownText.Substring(0, Math.Min(markdownText.Length, 20))}... to '{outputFile}'...");
-
-                ConvertTextToPdf(markdownText, outputFile, settingsAction, ctx.Log);
-            }
-            finally
-            {
-                Directory.SetCurrentDirectory(oldDirectory);
-            }
+            ctx.Log.Information($"Transforming markdown text {markdownText.Substring(0, Math.Min(markdownText.Length, 20))}... to '{outputFile}'...");
+            ConvertTextToPdf(markdownText, outputFile, settingsAction, ctx.Log, Path.GetDirectoryName(outputFile));
         }
 
-        private static void ConvertTextToPdf(string markdownText, string outputFile, Action<Settings> settingsAction, ICakeLog log)
+        private static void ConvertTextToPdf(string markdownText, string outputFile, Action<Settings> settingsAction, ICakeLog log, string sourceWorkingDirectory)
         {
             if (!CanWriteToOutputFile(outputFile))
             {
@@ -113,11 +95,16 @@ namespace Cake.MarkdownToPdf
 
             settingsAction?.Invoke(settings);
 
+            if (string.IsNullOrEmpty(settings.WorkingDirectory))
+                settings.WorkingDirectory = sourceWorkingDirectory;
+
             string htmlFile = Path.Combine(Path.GetTempPath(), $"convert{Guid.NewGuid().ToString("n")}.html");
+
+            settings.MarkdownPipeline.DebugLog = Console.Out;
 
             var html = Markdown.ToHtml(markdownText, settings.MarkdownPipeline.Build());
 
-            html = ApplyTheme(html, settings, log);
+            html = ApplyTheme(html, settings, log, Directory.GetCurrentDirectory(), settings.WorkingDirectory);
 
             try
             {
@@ -138,13 +125,13 @@ namespace Cake.MarkdownToPdf
             }
         }
 
-        private static string ApplyTheme(string html, Settings settings, ICakeLog log)
+        private static string ApplyTheme(string html, Settings settings, ICakeLog log, string baseDirectory, string workingDirectory)
         {
             if (string.IsNullOrEmpty(settings.CssFile))
-                settings.CssFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Themes\\{settings.Theme}\\Theme.css");
+                settings.CssFile = Path.Combine(baseDirectory, $"Themes\\{settings.Theme}\\Theme.css");
 
             if (string.IsNullOrEmpty(settings.HtmlTemplateFile))
-                settings.HtmlTemplateFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Themes\\{settings.Theme}\\Theme.html");
+                settings.HtmlTemplateFile = Path.Combine(baseDirectory, $"Themes\\{settings.Theme}\\Theme.html");
 
             if (!Path.IsPathRooted(settings.CssFile))
                 settings.CssFile = Path.GetFullPath(settings.CssFile);
@@ -160,9 +147,13 @@ namespace Cake.MarkdownToPdf
 
             var template = File.ReadAllText(settings.HtmlTemplateFile);
 
+            if (!workingDirectory.EndsWith("\\") && !workingDirectory.EndsWith("/"))
+                workingDirectory += "\\";
+
             return template
                 .Replace("{$html}", html)
-                .Replace("{$cssFile}", settings.CssFile);
+                .Replace("{$cssFile}", settings.CssFile)
+                .Replace("{$docPath}", workingDirectory);
         }
 
         private static bool CanWriteToOutputFile(string outputFile)

@@ -73,6 +73,11 @@
             Settings used for the conversion
             </summary>
         </member>
+        <member name="M:Cake.MarkdownToPdf.Settings.#ctor">
+            <summary>
+            Initialize a new settings instance
+            </summary>
+        </member>
         <member name="P:Cake.MarkdownToPdf.Settings.MarkdownPipeline">
             <summary>
             Settings used for parsing markdown
@@ -98,6 +103,11 @@
             Settings for the pdf convert
             </summary>
         </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.WorkingDirectory">
+            <summary>
+            Gets or sets the working directory. Used for image retrieving
+            </summary>
+        </member>
         <member name="M:Cake.MarkdownToPdf.Settings.UseAdvancedMarkdownExtensions">
             <summary>
             Calls the UseAdvancedExtensions() on the MarkdownPipelineBuilder.
@@ -117,6 +127,21 @@
             Settings for the pdf convert
             </summary>
         </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.PageSize">
+            <summary>
+            Gets or sets the pdf page size
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.Orientation">
+            <summary>
+            Gets or sets the page orientation
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfSettings.ImageDpi">
+            <summary>
+            Gets or sets the dpi of the images within the pdf
+            </summary>
+        </member>
         <member name="P:Cake.MarkdownToPdf.PdfSettings.ImageQuality">
             <summary>
             Percentage if the output image quality (compression)
@@ -132,9 +157,59 @@
             Customizable path to wkhtmltopdf tool
             </summary>
         </member>
+        <member name="T:Cake.MarkdownToPdf.PdfPageSize">
+            <summary>
+            The Pdf page sizes
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.PdfPageSize.Letter">
+            <summary>
+            Letter format
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.PdfPageSize.A4">
+            <summary>
+            DIN A4 format
+            </summary>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.PdfPageOrientation">
+            <summary>
+            The page orientations
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.PdfPageOrientation.Portrait">
+            <summary>
+            Potrait mode
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.PdfPageOrientation.Landscape">
+            <summary>
+            Landscape mode
+            </summary>
+        </member>
         <member name="T:Cake.MarkdownToPdf.PdfPageMargins">
             <summary>
             Margins in mm
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfPageMargins.Left">
+            <summary>
+            Left margin
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfPageMargins.Right">
+            <summary>
+            Right margin
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfPageMargins.Top">
+            <summary>
+            Top margin
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.PdfPageMargins.Bottom">
+            <summary>
+            Bottom margin
             </summary>
         </member>
         <member name="T:Cake.MarkdownToPdf.Themes">
