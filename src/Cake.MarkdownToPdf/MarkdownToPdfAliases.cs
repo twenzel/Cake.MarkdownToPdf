@@ -22,6 +22,12 @@ namespace Cake.MarkdownToPdf
         /// Task("Convert")
         ///   .Does(() => {        
         ///     MarkdownFileToPdf("readme.md", "output.pdf");
+        ///     
+        ///     // or with settings
+        ///      MarkdownFileToPdf("readme.md", "output.pdf", settings => {
+        ///         settings.Theme = Themes.Github
+        ///         settings.UseAdvancedMarkdownTables();
+        ///      });
         /// });
         /// </code>
         /// </example>
@@ -107,9 +113,11 @@ namespace Cake.MarkdownToPdf
 
             settingsAction?.Invoke(settings);
 
+            string htmlFile = Path.Combine(Path.GetTempPath(), $"convert{Guid.NewGuid().ToString("n")}.html");
+
             var html = Markdown.ToHtml(markdownText, settings.MarkdownPipeline.Build());
 
-            string htmlFile = Path.Combine(Path.GetTempPath(), $"convert{Guid.NewGuid().ToString("n")}.html");
+            html = ApplyTheme(html, settings, log);
 
             try
             {
@@ -128,6 +136,33 @@ namespace Cake.MarkdownToPdf
                 if (File.Exists(htmlFile))
                     File.Delete(htmlFile);
             }
+        }
+
+        private static string ApplyTheme(string html, Settings settings, ICakeLog log)
+        {
+            if (string.IsNullOrEmpty(settings.CssFile))
+                settings.CssFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Themes\\{settings.Theme}\\Theme.css");
+
+            if (string.IsNullOrEmpty(settings.HtmlTemplateFile))
+                settings.HtmlTemplateFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Themes\\{settings.Theme}\\Theme.html");
+
+            if (!Path.IsPathRooted(settings.CssFile))
+                settings.CssFile = Path.GetFullPath(settings.CssFile);
+
+            if (!Path.IsPathRooted(settings.HtmlTemplateFile))
+                settings.HtmlTemplateFile = Path.GetFullPath(settings.HtmlTemplateFile);
+
+            if (!File.Exists(settings.CssFile))
+                log.Error($"CSS file '{settings.CssFile}' not found!");
+
+            if (!File.Exists(settings.HtmlTemplateFile))
+                log.Error($"Html template file '{settings.HtmlTemplateFile}' not found!");
+
+            var template = File.ReadAllText(settings.HtmlTemplateFile);
+
+            return template
+                .Replace("{$html}", html)
+                .Replace("{$cssFile}", settings.CssFile);
         }
 
         private static bool CanWriteToOutputFile(string outputFile)

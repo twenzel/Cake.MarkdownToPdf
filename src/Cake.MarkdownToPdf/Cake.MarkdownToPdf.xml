@@ -37,6 +37,12 @@
             Task("Convert")
               .Does(() => {        
                 MarkdownFileToPdf("readme.md", "output.pdf");
+                
+                // or with settings
+                 MarkdownFileToPdf("readme.md", "output.pdf", settings => {
+                    settings.Theme = Themes.Github
+                    settings.UseAdvancedMarkdownTables();
+                 });
             });
             </code>
             </example>
@@ -72,10 +78,39 @@
             Settings used for parsing markdown
             </summary>
         </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.CssFile">
+            <summary>
+            Gets or sets the Css file used for rendering the HTML/Pdf
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.HtmlTemplateFile">
+            <summary>
+            Gets or sets a html template file
+            </summary>
+        </member>
+        <member name="P:Cake.MarkdownToPdf.Settings.Theme">
+            <summary>
+            Gets or sets the used theme
+            </summary>
+        </member>
         <member name="P:Cake.MarkdownToPdf.Settings.Pdf">
             <summary>
             Settings for the pdf convert
             </summary>
+        </member>
+        <member name="M:Cake.MarkdownToPdf.Settings.UseAdvancedMarkdownExtensions">
+            <summary>
+            Calls the UseAdvancedExtensions() on the MarkdownPipelineBuilder.
+            See https://github.com/lunet-io/markdig/blob/master/src/Markdig/MarkdownExtensions.cs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cake.MarkdownToPdf.Settings.UseAdvancedMarkdownTables">
+            <summary>
+            Calls the UsePipeTables() on the MarkdownPipelineBuilder.
+            See https://github.com/lunet-io/markdig/blob/master/src/Markdig/MarkdownExtensions.cs
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Cake.MarkdownToPdf.PdfSettings">
             <summary>
@@ -100,6 +135,21 @@
         <member name="T:Cake.MarkdownToPdf.PdfPageMargins">
             <summary>
             Margins in mm
+            </summary>
+        </member>
+        <member name="T:Cake.MarkdownToPdf.Themes">
+            <summary>
+            The html output themes
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.Themes.Default">
+            <summary>
+            Default theme
+            </summary>
+        </member>
+        <member name="F:Cake.MarkdownToPdf.Themes.Github">
+            <summary>
+            Github style
             </summary>
         </member>
     </members>

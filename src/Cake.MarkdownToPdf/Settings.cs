@@ -23,9 +23,44 @@ namespace Cake.MarkdownToPdf
         public MarkdownPipelineBuilder MarkdownPipeline { get; }
 
         /// <summary>
+        /// Gets or sets the Css file used for rendering the HTML/Pdf
+        /// </summary>
+        public string CssFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets a html template file
+        /// </summary>
+        public string HtmlTemplateFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the used theme
+        /// </summary>
+        public Themes Theme { get; set; }
+
+        /// <summary>
         /// Settings for the pdf convert
         /// </summary>
         public PdfSettings Pdf { get; } = new PdfSettings();
+
+        /// <summary>
+        /// Calls the UseAdvancedExtensions() on the MarkdownPipelineBuilder.
+        /// See https://github.com/lunet-io/markdig/blob/master/src/Markdig/MarkdownExtensions.cs
+        /// </summary>
+        /// <returns></returns>
+        public void UseAdvancedMarkdownExtensions()
+        {
+            MarkdownPipeline.UseAdvancedExtensions();
+        }
+
+        /// <summary>
+        /// Calls the UsePipeTables() on the MarkdownPipelineBuilder.
+        /// See https://github.com/lunet-io/markdig/blob/master/src/Markdig/MarkdownExtensions.cs
+        /// </summary>
+        /// <returns></returns>
+        public void UseAdvancedMarkdownTables()
+        {
+            MarkdownPipeline.UsePipeTables();
+        }
     }
 
     /// <summary>
@@ -43,7 +78,7 @@ namespace Cake.MarkdownToPdf
         /// Percentage if the output image quality (compression)
         /// </summary>
         public int ImageQuality { get; set; } = 100;
-        
+
         /// <summary>
         /// Margins in mm
         /// </summary>
@@ -76,5 +111,21 @@ namespace Cake.MarkdownToPdf
         public int Right { get; set; }
         public int Top { get; set; }
         public int Bottom { get; set; }
+    }
+
+    /// <summary>
+    /// The html output themes
+    /// </summary>
+    public enum Themes
+    {
+        /// <summary>
+        /// Default theme
+        /// </summary>
+        Default = 0,
+
+        /// <summary>
+        /// Github style
+        /// </summary>
+        Github
     }
 }
