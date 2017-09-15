@@ -6,6 +6,7 @@ using System.IO;
 using Markdig;
 using Cake.MarkdownToPdf.Internal;
 using System.Reflection;
+using System.Linq;
 
 namespace Cake.MarkdownToPdf
 {
@@ -104,7 +105,7 @@ namespace Cake.MarkdownToPdf
 
             var html = Markdown.ToHtml(markdownText, settings.MarkdownPipeline.Build());
 
-            html = ApplyTheme(html, settings, log, Directory.GetCurrentDirectory(), settings.WorkingDirectory);
+            html = ApplyTheme(html, settings, log, GetBaseDirectory(), settings.WorkingDirectory);
 
             try
             {
@@ -123,6 +124,14 @@ namespace Cake.MarkdownToPdf
                 if (File.Exists(htmlFile))
                     File.Delete(htmlFile);
             }
+        }
+
+        private static string GetBaseDirectory()
+        {
+            if (AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault( a => a.FullName.Contains("xunit")) != null)
+                return Directory.GetCurrentDirectory();
+            else
+                return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
 
         private static string ApplyTheme(string html, Settings settings, ICakeLog log, string baseDirectory, string workingDirectory)
