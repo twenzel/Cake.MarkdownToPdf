@@ -56,6 +56,10 @@ namespace Cake.MarkdownToPdf.Internal
             // in and out files
             sb.Append($"\"{htmlFile}\" \"{outputFile}\" ");
 
+            var outDir = Path.GetDirectoryName(outputFile);
+            if (!Directory.Exists(outDir))
+                Directory.CreateDirectory(outDir);
+
             return Convert(settings.PathToWkhtmltopdf, sb.ToString(), baseDirectory, log);
         }
 
