@@ -105,13 +105,14 @@ namespace Cake.MarkdownToPdf
 
             var html = Markdown.ToHtml(markdownText, settings.MarkdownPipeline.Build());
 
-            html = ApplyTheme(html, settings, log, GetBaseDirectory(), settings.WorkingDirectory);
+            var baseDirectory = GetBaseDirectory();
+            html = ApplyTheme(html, settings, log, baseDirectory, settings.WorkingDirectory);
 
             try
             {
                 File.WriteAllText(htmlFile, html);
                 var generator = new PdfGenerator();
-                var exitCode = generator.ConvertToPdf(htmlFile, outputFile, settings.Pdf);
+                var exitCode = generator.ConvertToPdf(htmlFile, outputFile, settings.Pdf, baseDirectory, log);
 
                 if (exitCode != 0)
                 {

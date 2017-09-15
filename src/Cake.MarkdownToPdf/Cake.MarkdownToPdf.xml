@@ -14,13 +14,15 @@
             Gets the console output of the converter tool
             </summary>
         </member>
-        <member name="M:Cake.MarkdownToPdf.Internal.PdfGenerator.ConvertToPdf(System.String,System.String,Cake.MarkdownToPdf.PdfSettings)">
+        <member name="M:Cake.MarkdownToPdf.Internal.PdfGenerator.ConvertToPdf(System.String,System.String,Cake.MarkdownToPdf.PdfSettings,System.String,Cake.Core.Diagnostics.ICakeLog)">
             <summary>
             Converts the given html file to a pdf file using the settings
             </summary>
-            <param name="htmlFile"></param>
-            <param name="outputFile"></param>
+            <param name="htmlFile">File path to the generated html file</param>
+            <param name="outputFile">Name of the pdf tile to be generated</param>
             <param name="settings"></param>
+            <param name="baseDirectory">Directory of the addin</param>
+            <param name="log"></param>
             <returns></returns>
         </member>
         <member name="T:Cake.MarkdownToPdf.MarkdownToPdfAliases">

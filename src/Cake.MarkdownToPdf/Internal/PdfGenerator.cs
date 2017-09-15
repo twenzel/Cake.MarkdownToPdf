@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cake.Core.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -21,14 +22,16 @@ namespace Cake.MarkdownToPdf.Internal
         /// <summary>
         /// Converts the given html file to a pdf file using the settings
         /// </summary>
-        /// <param name="htmlFile"></param>
-        /// <param name="outputFile"></param>
+        /// <param name="htmlFile">File path to the generated html file</param>
+        /// <param name="outputFile">Name of the pdf tile to be generated</param>
         /// <param name="settings"></param>
+        /// <param name="baseDirectory">Directory of the addin</param>
+        /// <param name="log"></param>
         /// <returns></returns>
-        public int ConvertToPdf(string htmlFile, string outputFile, PdfSettings settings)
+        public int ConvertToPdf(string htmlFile, string outputFile, PdfSettings settings, string baseDirectory, ICakeLog log)
         {
-            StringBuilder sb = new StringBuilder();
-            
+            var sb = new StringBuilder();
+
             sb.Append($"--image-dpi {settings.ImageDpi} ");
             sb.Append($"--image-quality {settings.ImageQuality} ");
             sb.Append($"--page-size {settings.PageSize} ");
@@ -52,14 +55,17 @@ namespace Cake.MarkdownToPdf.Internal
 
             // in and out files
             sb.Append($"\"{htmlFile}\" \"{outputFile}\" ");
-          
-            return Convert(settings.PathToWkhtmltopdf, sb.ToString());
+
+            return Convert(settings.PathToWkhtmltopdf, sb.ToString(), baseDirectory, log);
         }
 
-        private int Convert(string wkhtmltopdfPath, string switches)
+        private int Convert(string wkhtmltopdfPath, string switches, string baseDirectory, ICakeLog log)
         {
             if (string.IsNullOrEmpty(wkhtmltopdfPath))
-                wkhtmltopdfPath = Path.Combine(AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory, "wkhtmltopdf.exe");
+                wkhtmltopdfPath = Path.Combine(baseDirectory, "wkhtmltopdf.exe");
+
+            log.Debug("Run html to pdf converter: " + wkhtmltopdfPath);
+            log.Debug("Using switches: " + switches);
 
             Process process = new Process
             {
@@ -83,7 +89,7 @@ namespace Cake.MarkdownToPdf.Internal
 
             process.OutputDataReceived += OnOutputDataReceived;
             process.ErrorDataReceived += OnOutputDataReceived;
-   
+
             try
             {
                 process.Start();
@@ -91,14 +97,15 @@ namespace Cake.MarkdownToPdf.Internal
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                bool result = process.WaitForExit(3*60*1000);
+                bool result = process.WaitForExit(3 * 60 * 1000);
 
                 if (!result)
                     return -10;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 output.AppendLine(e.ToString());
+                log.Error(e);
                 return -1;
             }
             finally
