@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.MarkdownToPdf", "Cake.MarkdownToPdf\Cake.MarkdownToPdf.csproj", "{8731FA2B-39FA-4D77-BDE6-897B2D45CE4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.MarkdownToPdf", "src\Cake.MarkdownToPdf\Cake.MarkdownToPdf.csproj", "{8731FA2B-39FA-4D77-BDE6-897B2D45CE4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.MarkdownToPdf.Tests", "Cake.MarkdownToPdf.Tests\Cake.MarkdownToPdf.Tests.csproj", "{AFDB449F-60E6-48FD-B8EE-9BA85D5E487D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.MarkdownToPdf.Tests", "tests\Cake.MarkdownToPdf.Tests\Cake.MarkdownToPdf.Tests.csproj", "{AFDB449F-60E6-48FD-B8EE-9BA85D5E487D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
