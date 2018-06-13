@@ -27,8 +27,7 @@ branches:
 #---------------------------------#
 #  Build Cache                    #
 #---------------------------------#
-cache:
-- packages -> **\packages.config      
+cache:   
 - tools -> build.cake
 
 # here we are going to override common configuration
