@@ -74,7 +74,7 @@ Task("Pack")
     .Does(() => {
         
 		var nuGetPackSettings = new NuGetPackSettings {	
-			Version = versionInfo.FullSemVer,
+			Version = versionInfo.NuGetVersionV2,
 			BasePath = outputDirAddin,
 			OutputDirectory = outputDirNuget,
 			NoPackageAnalysis = true
