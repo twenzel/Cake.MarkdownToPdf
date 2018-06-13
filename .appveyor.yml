@@ -42,6 +42,6 @@ for:
   - ps: .\build.ps1 -Target Pack
   deploy:
   - provider: NuGet
-    artifact: buildArtifacts/NuGet/
+    artifact: /NuGet/
     api_key:
       secure: mJmBj6P3WwlFzwtlNCDaaUJqLtpjEmshKbhRDAqT8JXbqoJVBSZ5bF41Z2lrLTDz
