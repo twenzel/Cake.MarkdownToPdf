@@ -9,7 +9,7 @@ var solution = "./Cake.MarkdownToPdf.sln";
 var project = "./src/Cake.MarkdownToPdf/Cake.MarkdownToPdf.csproj";
 var outputDir = "./buildArtifacts/";
 var outputDirAddin = outputDir+"Addin/";
-var outputDirNuget = outputDir+"Nuget/";
+var outputDirNuget = outputDir+"NuGet/";
 var nuspecDir = "./nuspec/";
 
 //////////////////////////////////////////////////////////////////////

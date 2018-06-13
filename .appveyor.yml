@@ -10,7 +10,7 @@ build_script:
 test: off
 
 artifacts:
-- path: nuget\*.nupkg
+- path: buildArtifacts\Nuget\*.nupkg
   name: NuGet package
 
 #---------------------------------#
@@ -42,6 +42,6 @@ for:
   - ps: .\build.ps1 -Target Pack
   deploy:
   - provider: NuGet
-    artifact: /NuGet/
+    artifact: buildArtifacts/NuGet/
     api_key:
       secure: mJmBj6P3WwlFzwtlNCDaaUJqLtpjEmshKbhRDAqT8JXbqoJVBSZ5bF41Z2lrLTDz
