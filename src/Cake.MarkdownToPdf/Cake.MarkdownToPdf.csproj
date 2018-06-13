@@ -1,22 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard20</TargetFramework>
-    <PackageId>Cake.MarkdownToPdf</PackageId>
-    <PackageVersion>0.4.7</PackageVersion>
-    <Version>0.4.7</Version>
-    <Authors>Toni Wenzel</Authors>
-    <Description>Cake addin to convert markdown files to pdf.</Description>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright (c) Toni Wenzel</Copyright>
-    <PackageTags>Cake Cakebuild markdown pdf</PackageTags>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/twenzel/Cake.MarkdownToPdf/master/LICENSE.md</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/twenzel/Cake.MarkdownToPdf</PackageProjectUrl>
-    <PackageIconUrl>https://cdn.rawgit.com/cake-contrib/graphics/a5cf0f881c390650144b2243ae551d5b9f836196/png/cake-contrib-medium.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/twenzel/Cake.MarkdownToPdf</RepositoryUrl>
+    <TargetFramework>netstandard20</TargetFramework>        
+    <Version>$(SemVer)</Version>     
   </PropertyGroup> 
   <ItemGroup>
     <PackageReference Include="Cake.Core" Version="0.28.0" PrivateAssets="All" />
-    <PackageReference Include="Markdig" Version="0.15.0" />
+    <PackageReference Include="Markdig" Version="0.15.0" />          
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Theme.css">
