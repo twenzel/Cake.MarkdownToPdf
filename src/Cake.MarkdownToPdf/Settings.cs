@@ -122,10 +122,10 @@ namespace Cake.MarkdownToPdf
         /// </summary>
         A4,
     }
+
     /// <summary>
     /// The page orientations
     /// </summary>
-
     public enum PdfPageOrientation
     {
         /// <summary>
