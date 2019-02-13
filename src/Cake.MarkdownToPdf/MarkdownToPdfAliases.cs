@@ -5,7 +5,6 @@ using Cake.MarkdownToPdf.Internal;
 using Markdig;
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace Cake.MarkdownToPdf
@@ -135,10 +134,10 @@ namespace Cake.MarkdownToPdf
         private static string ApplyTheme(string html, Settings settings, ICakeLog log, string baseDirectory, string workingDirectory)
         {
             if (string.IsNullOrEmpty(settings.CssFile))
-                settings.CssFile = Path.Combine(baseDirectory, $"Themes\\{settings.Theme}\\Theme.css");
+                settings.CssFile = Path.Combine(baseDirectory, "Themes", settings.Theme.ToString(), "Theme.css");
 
             if (string.IsNullOrEmpty(settings.HtmlTemplateFile))
-                settings.HtmlTemplateFile = Path.Combine(baseDirectory, $"Themes\\{settings.Theme}\\Theme.html");
+                settings.HtmlTemplateFile = Path.Combine(baseDirectory, "Themes",settings.Theme.ToString(),"Theme.html");
 
             if (!Path.IsPathRooted(settings.CssFile))
                 settings.CssFile = Path.GetFullPath(settings.CssFile);
@@ -154,8 +153,8 @@ namespace Cake.MarkdownToPdf
 
             var template = File.ReadAllText(settings.HtmlTemplateFile);
 
-            if (!workingDirectory.EndsWith("\\") && !workingDirectory.EndsWith("/"))
-                workingDirectory += "\\";
+            if (!workingDirectory.EndsWith(Path.PathSeparator.ToString()))
+                workingDirectory += Path.PathSeparator;
 
             return template
                 .Replace("{$html}", html)
