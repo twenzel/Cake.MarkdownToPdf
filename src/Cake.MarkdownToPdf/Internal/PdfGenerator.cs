@@ -1,11 +1,8 @@
 ﻿using Cake.Core.Diagnostics;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Cake.MarkdownToPdf.Internal
 {

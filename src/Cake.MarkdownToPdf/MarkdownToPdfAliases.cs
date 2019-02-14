@@ -137,7 +137,7 @@ namespace Cake.MarkdownToPdf
                 settings.CssFile = Path.Combine(baseDirectory, "Themes", settings.Theme.ToString(), "Theme.css");
 
             if (string.IsNullOrEmpty(settings.HtmlTemplateFile))
-                settings.HtmlTemplateFile = Path.Combine(baseDirectory, "Themes",settings.Theme.ToString(),"Theme.html");
+                settings.HtmlTemplateFile = Path.Combine(baseDirectory, "Themes", settings.Theme.ToString(), "Theme.html");
 
             if (!Path.IsPathRooted(settings.CssFile))
                 settings.CssFile = Path.GetFullPath(settings.CssFile);

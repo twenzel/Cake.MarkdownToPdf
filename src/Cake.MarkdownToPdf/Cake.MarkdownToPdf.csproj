@@ -5,7 +5,7 @@
   </PropertyGroup> 
   <ItemGroup>
     <PackageReference Include="Cake.Core" Version="0.32.1" PrivateAssets="All" />
-    <PackageReference Include="Markdig" Version="0.15.6" />          
+    <PackageReference Include="Markdig" Version="0.15.7" />          
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Theme.css">
