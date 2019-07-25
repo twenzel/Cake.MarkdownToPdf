@@ -36,13 +36,13 @@ namespace Cake.MarkdownToPdf.Internal
             sb.Append("--print-media-type ");
 
             if (settings.Margins.Left > 0)
-                sb.Append($"--margin-left {settings.Margins.Left} mm");
+                sb.Append($"--margin-left {settings.Margins.Left}mm ");
             if (settings.Margins.Right > 0)
-                sb.Append($"--margin-right {settings.Margins.Right} mm");
+                sb.Append($"--margin-right {settings.Margins.Right}mm ");
             if (settings.Margins.Top > 0)
-                sb.Append($"--margin-top {settings.Margins.Top} mm");
+                sb.Append($"--margin-top {settings.Margins.Top}mm ");
             if (settings.Margins.Bottom > 0)
-                sb.Append($"--margin-bottom {settings.Margins.Bottom} mm");
+                sb.Append($"--margin-bottom {settings.Margins.Bottom}mm ");
 
             // don' use --disable-smart-shrinking
             // this zooms/fits the content "correct" to the page but the font kerning is a mess
