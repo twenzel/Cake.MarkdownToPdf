@@ -100,6 +100,16 @@ namespace Cake.MarkdownToPdf
         /// Customizable path to wkhtmltopdf tool
         /// </summary>
         public string PathToWkhtmltopdf { get; set; }
+        
+        /// <summary>
+        /// Gets or sets additional wkhtmltopdf Global Options
+        /// </summary>
+        public string AdditionalGlobalOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets additional wkhtmltopdf Page Options
+        /// </summary>
+        public string AdditionalPageOptions { get; set; }
     }
 
     /// <summary>

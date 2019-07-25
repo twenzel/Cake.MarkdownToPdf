@@ -50,8 +50,17 @@ namespace Cake.MarkdownToPdf.Internal
             sb.Append("--zoom 1.3 ");
             sb.Append("--dpi 300 ");
 
-            // in and out files
-            sb.Append($"\"{htmlFile}\" \"{outputFile}\" ");
+            if (settings.AdditionalGlobalOptions != null)
+                sb.Append($"{settings.AdditionalGlobalOptions} ");
+
+            // in file
+            sb.Append($"page \"{htmlFile}\" ");
+
+            if (settings.AdditionalPageOptions != null)
+                sb.Append($"{settings.AdditionalPageOptions} ");
+
+            // out files
+            sb.Append($"\"{outputFile}\" ");
 
             var outDir = Path.GetDirectoryName(outputFile);
             if (!Directory.Exists(outDir))

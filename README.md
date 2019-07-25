@@ -53,6 +53,9 @@ Task("Convert")
   
     MarkdownFileToPdf("readme.md", "output.pdf", settings => {
         settings.Pdf.PageSize = PdfPageSize.Letter;
+        // check https://wkhtmltopdf.org/usage/wkhtmltopdf.txt for all available options
+        settings.Pdf.AdditionalGlobalOptions = "--title \"READ ME\"";
+        settings.Pdf.AdditionalPageOptions = "--default-header";
     });
 });
 ```
