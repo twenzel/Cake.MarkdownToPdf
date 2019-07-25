@@ -35,12 +35,6 @@ namespace Cake.MarkdownToPdf.Internal
             sb.Append($"--orientation {settings.Orientation} ");
             sb.Append("--print-media-type ");
 
-            // don' use --disable-smart-shrinking
-            // this zooms/fits the content "correct" to the page but the font kerning is a mess
-            // use --zom 1.3 instead
-            sb.Append("--zoom 1.3 ");
-            sb.Append("--dpi 300 ");
-            
             if (settings.Margins.Left > 0)
                 sb.Append($"--margin-left {settings.Margins.Left} mm");
             if (settings.Margins.Right > 0)
@@ -49,6 +43,12 @@ namespace Cake.MarkdownToPdf.Internal
                 sb.Append($"--margin-top {settings.Margins.Top} mm");
             if (settings.Margins.Bottom > 0)
                 sb.Append($"--margin-bottom {settings.Margins.Bottom} mm");
+
+            // don' use --disable-smart-shrinking
+            // this zooms/fits the content "correct" to the page but the font kerning is a mess
+            // use --zom 1.3 instead
+            sb.Append("--zoom 1.3 ");
+            sb.Append("--dpi 300 ");
 
             if (settings.AdditionalGlobalOptions != null)
                 sb.Append($"{settings.AdditionalGlobalOptions} ");
