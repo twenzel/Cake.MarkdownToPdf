@@ -1,4 +1,5 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.7.0"
+#tool "nuget:?package=NuGet.CommandLine&version=5.8.1"
 
 var target = Argument("target", "Default");
 
