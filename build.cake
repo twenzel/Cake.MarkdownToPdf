@@ -1,4 +1,4 @@
-#tool "nuget:?package=GitVersion.CommandLine"
+#tool "nuget:?package=GitVersion.CommandLine&version=5.7.0"
 
 var target = Argument("target", "Default");
 
@@ -47,11 +47,15 @@ Task("Build")
 	.IsDependentOn("Version")
     .Does(() => {
  		
+		var msBuildSettings = new DotNetCoreMSBuildSettings()
+			.WithProperty("Version", versionInfo.AssemblySemVer)
+			.WithProperty("InformationalVersion", versionInfo.InformationalVersion);
+
 		var settings = new DotNetCorePublishSettings
 		 {			
 			 Configuration = "Release",
 			 OutputDirectory = outputDirAddin,
-			 ArgumentCustomization = args => args.Append("/p:SemVer=" + versionInfo.NuGetVersionV2)
+			 MSBuildSettings = msBuildSettings
 		 };
 		 
 		 DotNetCorePublish(project, settings);
