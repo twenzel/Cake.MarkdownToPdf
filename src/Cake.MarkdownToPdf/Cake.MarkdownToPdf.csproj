@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>        
-    <Version>$(SemVer)</Version>     
+    <TargetFramework>netstandard2.0</TargetFramework>          
   </PropertyGroup> 
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="0.34.1" PrivateAssets="All" />
-    <PackageReference Include="Markdig" Version="0.17.1" />          
+    <PackageReference Include="Cake.Core" Version="1.1.0" PrivateAssets="All" />
+    <PackageReference Include="Markdig" Version="0.26.0" />          
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Theme.css">
