@@ -1,4 +1,5 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.7.0"
+#tool "nuget:?package=NuGet.CommandLine&version=5.8.1"
 
 var target = Argument("target", "Default");
 
@@ -10,7 +11,6 @@ var project = "./src/Cake.MarkdownToPdf/Cake.MarkdownToPdf.csproj";
 var outputDir = "./buildArtifacts/";
 var outputDirAddin = outputDir+"Addin/";
 var outputDirNuget = outputDir+"NuGet/";
-var nuspecDir = "./nuspec/";
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -51,25 +51,21 @@ Task("Build")
 			.WithProperty("Version", versionInfo.AssemblySemVer)
 			.WithProperty("InformationalVersion", versionInfo.InformationalVersion);
 
-		var settings = new DotNetCorePublishSettings
+		var settings = new DotNetCoreBuildSettings
 		 {			
 			 Configuration = "Release",
 			 OutputDirectory = outputDirAddin,
 			 MSBuildSettings = msBuildSettings
 		 };
 		 
-		 DotNetCorePublish(project, settings);
+		 DotNetCoreBuild(project, settings);
     });
 
 Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var projectFiles = GetFiles("./tests/**/*.csproj");
-        foreach(var file in projectFiles)
-        {
-            DotNetCoreTest(file.FullPath);
-        }
+ 		DotNetCoreTest("./tests/Cake.MarkdownToPdf.Tests/Cake.MarkdownToPdf.Tests.csproj");			
     });
 
 Task("Pack")
@@ -77,14 +73,32 @@ Task("Pack")
 	.IsDependentOn("Version")
     .Does(() => {
         
-		var nuGetPackSettings = new NuGetPackSettings {	
-			Version = versionInfo.NuGetVersionV2,
-			BasePath = outputDirAddin,
+		// var settings = new DotNetCorePublishSettings
+		//  {						
+		// 	 OutputDirectory = outputDirNuget,
+		// 	 NoBuild = true	
+		//  };
+
+		// DotNetCorePublish(project, settings);	
+		var msBuildSettings = new DotNetCoreMSBuildSettings()
+			.WithProperty("Version", versionInfo.AssemblySemVer)
+			.WithProperty("InformationalVersion", versionInfo.InformationalVersion);
+
+		var settings = new DotNetCorePackSettings
+		{		
 			OutputDirectory = outputDirNuget,
-			NoPackageAnalysis = true
+			MSBuildSettings = msBuildSettings,
+			NoBuild = true	
 		};
-		
-		NuGetPack(nuspecDir + "Cake.MarkdownToPdf.nuspec", nuGetPackSettings);			
+
+		DotNetCorePack(project, settings);			
+    });
+
+Task("TestFrosting")
+    .IsDependentOn("Pack")
+    .Does(() =>
+    { 			
+		DotNetCoreRun("./tests/Cake.Frosting.Tests/Cake.Frosting.Tests.csproj");
     });
 
 Task("Default")

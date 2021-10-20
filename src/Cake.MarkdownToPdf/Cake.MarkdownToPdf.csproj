@@ -1,26 +1,67 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>          
-  </PropertyGroup> 
+    <TargetFrameworks>netstandard2.0;net461;net5.0</TargetFrameworks>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PackageTags>cake;script;build;cake-build;addin;cake-addin;markdown;pdf</PackageTags>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>Toni Wenzel</Authors>
+    <Description>Cake Addin for converting markdown files to pdf.</Description>      	  
+    <PackageId>Cake.MarkdownToPdf</PackageId>    
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/twenzel/Cake.MarkdownToPdf.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/twenzel/Cake.MarkdownToPdf</PackageProjectUrl>	  
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>https://github.com/cake-contrib/Cake.Gradle/releases/tag/$(Version)</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+   <PropertyGroup>
+     <StartYear>2019</StartYear>
+     <EndYear>$([System.DateTime]::Today.Year)</EndYear>
+     <FullYear Condition="'$(StartYear)'=='$(EndYear)'">$(StartYear)</FullYear>
+     <FullYear Condition="'$(StartYear)'!='$(EndYear)'">$(StartYear)-$(EndYear)</FullYear>
+     <Copyright>Copyright © $(FullYear) — Toni Wenzel</Copyright>     
+	</PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="1.1.0" PrivateAssets="All" />
-    <PackageReference Include="Markdig" Version="0.26.0" />          
+    <PackageReference Include="Cake.Addin.Analyzer" Version="0.1.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Cake.Core" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="CakeContrib.Guidelines" Version="1.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Markdig" Version="0.26.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>          
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Themes\Default\Theme.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Themes\Default\Theme.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Themes\Github\Theme.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Themes\Github\Theme.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wkhtmltopdf.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <AdditionalFiles Include="$(SolutionDir)/stylecop.json" Link="stylecop.json" />
+    <None Include="$(SolutionDir)/.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Themes\Default\Theme.css">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>        
+    </EmbeddedResource>
+    <EmbeddedResource Include="Themes\Default\Theme.html">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>     
+    </EmbeddedResource>
+    <EmbeddedResource Include="Themes\Github\Theme.css">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>      
+    </EmbeddedResource>
+    <EmbeddedResource Include="Themes\Github\Theme.html">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>      
+    </EmbeddedResource>    
   </ItemGroup>
 </Project>
