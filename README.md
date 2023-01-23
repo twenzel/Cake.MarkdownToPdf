@@ -4,12 +4,15 @@
 
 Cake addin to convert markdown files to pdf. This addin uses [Markdig](https://github.com/lunet-io/markdig) markdown processor.
 
+Starting with Version 3.0 the adding requires a Wkhtmltopdf "installation". Please use a wkhtmltopdf package that fit your needs (version and platform).
+
 ## Usage
 
 Directly in your build script via a Cake `#addin` directive:
 
 ```csharp
 #addin "Cake.MarkdownToPdf"
+#tool "nuget:?package=wkhtmltopdf.x64&version=0.12.6"
 
 Task("Convert")
   .Does(() => {        
@@ -21,10 +24,17 @@ Task("Convert")
     // or using settings
     MarkdownFileToPdf("readme.md", "output.pdf", settings => {
         settings.Theme = Themes.Github;
+
+        // optional set path to your Wkhtmltopdf. Otherwise Cake will try to resolve it automatically.
+        settings.ToolPath = "..\wkhtmltopdf.exe";
+
         settings.UseAdvancedMarkdownTables(); // or UseAdvancedMarkdownExtensions();
         
         // accessing the internal markdig markdown pipeline
         settings.MarkdownPipeline.UseGridTables();
+
+        // optional
+        settings.Debug = true; // do not delete generated html file
     });
 });
 ```
@@ -41,7 +51,7 @@ Task("Convert")
         settings.CssFile = "path to my css";
         
         // optional
-        settings.HtmlTemplateFile = "path to my custom html file"; // using {$html} placeholder
+        settings.HtmlTemplateFile = "path to my custom html file"; // using {$html} placeholder       
     });
 });
 ```

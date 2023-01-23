@@ -10,7 +10,7 @@ build_script:
 test: off
 
 artifacts:
-- path: buildArtifacts\Nuget\*.nupkg
+- path: buildArtifacts\Nuget\*.*nupkg
   name: NuGet package
 
 #---------------------------------#

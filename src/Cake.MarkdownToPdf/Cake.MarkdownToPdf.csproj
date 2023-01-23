@@ -37,7 +37,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Cake.Core" Version="3.0.0" PrivateAssets="All" />
-		<PackageReference Include="Markdig" Version="0.30.4" PrivateAssets="All"/>
+		<PackageReference Include="Markdig" Version="0.30.4" PrivateAssets="All" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -56,9 +56,6 @@
 		<None Include="Themes\Github\Theme.html">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="wkhtmltopdf.exe">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 	<Target Name="PackBuildOutputs" DependsOnTargets="SatelliteDllsProjectOutputGroup;DebugSymbolsProjectOutputGroup">
@@ -72,9 +69,7 @@
 			<TfmSpecificPackageFile Include="$(OutputPath)\**\Themes\**\*.*">
 				<PackagePath>lib\$(TargetFramework)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(OutputPath)\**\wkhtmltopdf.exe">
-				<PackagePath>lib\$(TargetFramework)\</PackagePath>
-			</TfmSpecificPackageFile>			
+		
 		</ItemGroup>
 	</Target>
 </Project>

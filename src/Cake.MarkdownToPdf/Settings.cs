@@ -1,11 +1,14 @@
-﻿using Markdig;
+﻿using Cake.Core.IO;
+using Cake.Core.Tooling;
+using Markdig;
+using System;
 
 namespace Cake.MarkdownToPdf
 {
     /// <summary>
     /// Settings used for the conversion
     /// </summary>
-    public class Settings
+    public sealed class Settings : ToolSettings
     {
         /// <summary>
         /// Initialize a new settings instance
@@ -13,7 +16,23 @@ namespace Cake.MarkdownToPdf
         public Settings()
         {
             MarkdownPipeline = new MarkdownPipelineBuilder();
+            ToolTimeout = TimeSpan.FromMinutes(3);
         }
+
+        /// <summary>
+        /// Gets or sets the markdown file which should be processed
+        /// </summary>
+        public FilePath MarkdownFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the markdown text which should be processed
+        /// </summary>
+        public string MarkdownText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the output PDF file
+        /// </summary>
+        public FilePath OutputFile { get; set; }
 
         /// <summary>
         /// Settings used for parsing markdown
@@ -40,10 +59,6 @@ namespace Cake.MarkdownToPdf
         /// </summary>
         public PdfSettings Pdf { get; } = new PdfSettings();
 
-        /// <summary>
-        /// Gets or sets the working directory. Used for image retrieving
-        /// </summary>
-        public string WorkingDirectory { get; set; }
 
         /// <summary>
         /// Calls the UseAdvancedExtensions() on the MarkdownPipelineBuilder.
@@ -64,6 +79,11 @@ namespace Cake.MarkdownToPdf
         {
             MarkdownPipeline.UsePipeTables();
         }
+
+        /// <summary>
+        /// Determines whether to not delete the generated html file
+        /// </summary>
+        public bool Debug { get; set; }
     }
 
     /// <summary>
@@ -96,11 +116,6 @@ namespace Cake.MarkdownToPdf
         /// </summary>
         public PdfPageMargins Margins { get; } = new PdfPageMargins();
 
-        /// <summary>
-        /// Customizable path to wkhtmltopdf tool
-        /// </summary>
-        public string PathToWkhtmltopdf { get; set; }
-        
         /// <summary>
         /// Gets or sets additional wkhtmltopdf Global Options
         /// </summary>

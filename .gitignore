@@ -263,3 +263,4 @@ __pycache__/
 
 #Cake
 [Tt]ools/
+*.ncrunchsolution
