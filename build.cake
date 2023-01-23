@@ -1,5 +1,5 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.7.0"
-#tool "nuget:?package=NuGet.CommandLine&version=5.8.1"
+#tool "nuget:?package=NuGet.CommandLine&version=6.4.0"
 
 var target = Argument("target", "Default");
 
@@ -8,10 +8,10 @@ var target = Argument("target", "Default");
 /////////////////////////////////////////////////////////////////////
 var solution = "./Cake.MarkdownToPdf.sln";
 var project = "./src/Cake.MarkdownToPdf/Cake.MarkdownToPdf.csproj";
-var outputDir = "./buildArtifacts/";
-var outputDirAddin = outputDir+"Addin/";
-var outputDirNuget = outputDir+"NuGet/";
-var nuspecDir = "./nuspec/";
+var outputDirRoot = new DirectoryPath("./BuildArtifacts/").MakeAbsolute(Context.Environment);
+var packageOutputDir = outputDirRoot.Combine("NuGet");
+var outputDirTemp = outputDirRoot.Combine("Temp");
+var outputDirTests = outputDirTemp.Combine("Tests/");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -21,14 +21,11 @@ Task("Clean")
     .Description("Removes the output directory")
 	.Does(() => {
 	  
-	if (DirectoryExists(outputDir))
-	{
-		DeleteDirectory(outputDir, new DeleteDirectorySettings {
+	EnsureDirectoryDoesNotExist(outputDirRoot, new DeleteDirectorySettings {
 			Recursive = true,
 			Force = true
 		});
-	}
-	CreateDirectory(outputDir);
+	CreateDirectory(outputDirRoot);
 });
 
 GitVersion versionInfo = null;
@@ -46,46 +43,37 @@ Task("Version")
 Task("Build")
 	.IsDependentOn("Clean")
 	.IsDependentOn("Version")
-    .Does(() => {
- 		
-		var msBuildSettings = new DotNetCoreMSBuildSettings()
-			.WithProperty("Version", versionInfo.AssemblySemVer)
-			.WithProperty("InformationalVersion", versionInfo.InformationalVersion);
+    .Does(() => { 				
 
-		var settings = new DotNetCorePublishSettings
-		 {			
-			 Configuration = "Release",
-			 OutputDirectory = outputDirAddin,
-			 MSBuildSettings = msBuildSettings
-		 };
-		 
-		 DotNetCorePublish(project, settings);
+		var msBuildSettings = new DotNetMSBuildSettings()
+		{
+			Version =  versionInfo.AssemblySemVer,
+			InformationalVersion = versionInfo.InformationalVersion,
+			PackageVersion = versionInfo.NuGetVersionV2
+		}.WithProperty("PackageOutputPath", packageOutputDir.FullPath);	
+
+		var settings = new DotNetBuildSettings {
+			Configuration = "Release",
+			MSBuildSettings = msBuildSettings
+		};
+	 
+		DotNetBuild(solution, settings);
+
     });
 
 Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var projectFiles = GetFiles("./tests/**/*.csproj");
-        foreach(var file in projectFiles)
-        {
-            DotNetCoreTest(file.FullPath);
-        }
-    });
-
-Task("Pack")
-    .IsDependentOn("Test")
-	.IsDependentOn("Version")
-    .Does(() => {
-        
-		var nuGetPackSettings = new NuGetPackSettings {	
-			Version = versionInfo.NuGetVersionV2,
-			BasePath = outputDirAddin,
-			OutputDirectory = outputDirNuget,
-			NoPackageAnalysis = true
+		var settings = new DotNetTestSettings {
+			Configuration = "Release",
+			Loggers = new[]{"trx;"},
+			ResultsDirectory = outputDirTests,
+			Collectors = new[] {"XPlat Code Coverage"},				
+			NoBuild = true
 		};
-		
-		NuGetPack(nuspecDir + "Cake.MarkdownToPdf.nuspec", nuGetPackSettings);			
+
+        DotNetTest(solution, settings);	
     });
 
 Task("Default")

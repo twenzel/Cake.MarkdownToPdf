@@ -1,10 +1,10 @@
-image: Visual Studio 2017
+image: Visual Studio 2022
 
 #---------------------------------#
 #  Build Script                   #
 #---------------------------------#
 build_script:
-  - ps: .\build.ps1 -Target Test
+  - ps: .\build.ps1 --target=Test
 
 # Tests
 test: off
@@ -38,9 +38,9 @@ for:
     only:
       - master  
   build_script:
-  - ps: .\build.ps1 -Target Pack
+  - ps: .\build.ps1 --Target=Test
   deploy:
   - provider: NuGet
     artifact: /NuGet/
     api_key:
-      secure: fO2jniluujGDxSqaBJgLXJcWlaZFn3Sr0IwDyS3RT0Hb3nxbF/ZJE1nJ71rpoWGm
+      secure: AJ14IERxVAn6UUsc2lqOpUfhiyvyY60lHfNUUe4baJoG71rRHCwlKVSPmmLjHdxP

@@ -1,26 +1,75 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
-  </PropertyGroup> 
-  <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="3.0.0" PrivateAssets="All" />
-    <PackageReference Include="Markdig" Version="0.30.4" />          
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Themes\Default\Theme.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Themes\Default\Theme.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Themes\Github\Theme.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Themes\Github\Theme.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wkhtmltopdf.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Title>Cake.MarkdownToPdf</Title>
+		<Description>Cake Addin for converting markdown files to pdf.</Description>
+		<Authors>Toni Wenzel</Authors>
+		<PackageTags>Cake Cakebuild markdown pdf</PackageTags>
+		<PackageIconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</PackageIconUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageProjectUrl>https://github.com/twenzel/Cake.MarkdownToPdf</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/twenzel/Cake.MarkdownToPdf</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);PackBuildOutputs</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\readme.md" Pack="true" PackagePath="." />
+		<None Include="icon.png" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Cake.Core" Version="3.0.0" PrivateAssets="All" />
+		<PackageReference Include="Markdig" Version="0.30.4" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Themes\Default\Theme.css">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Themes\Default\Theme.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Themes\Github\Theme.css">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Themes\Github\Theme.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="wkhtmltopdf.exe">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<Target Name="PackBuildOutputs" DependsOnTargets="SatelliteDllsProjectOutputGroup;DebugSymbolsProjectOutputGroup">
+		<ItemGroup>			
+			<TfmSpecificPackageFile Include="$(OutputPath)\**\Cake.MarkdownToPdf.*">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(OutputPath)\**\Themes\**\*.*">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(OutputPath)\**\wkhtmltopdf.exe">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>			
+		</ItemGroup>
+	</Target>
 </Project>

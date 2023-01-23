@@ -1,4 +1,5 @@
 # Cake.MarkdownToPdf
+
 [![Build status](https://ci.appveyor.com/api/projects/status/gopqcygjgfumot9c?svg=true)](https://ci.appveyor.com/project/twenzel/cake-markdowntopdf) [![NuGet Version](http://img.shields.io/nuget/v/Cake.MarkdownToPdf.svg?style=flat)](https://www.nuget.org/packages/Cake.MarkdownToPdf/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
 Cake addin to convert markdown files to pdf. This addin uses [Markdig](https://github.com/lunet-io/markdig) markdown processor.
@@ -29,8 +30,8 @@ Task("Convert")
 ```
 
 ### Themes
-Use can use the build-in "Default" or "Github" theme or define any css style on your own
 
+Use can use the build-in "Default" or "Github" theme or define any css style on your own
 
 ```csharp
 Task("Convert")
@@ -46,7 +47,9 @@ Task("Convert")
 ```
 
 ### PDF settings
+
 Settings such as orientation, margins etc can be set through the PdfSettings:
+
 ```csharp
 Task("Convert")
   .Does(() => {        
