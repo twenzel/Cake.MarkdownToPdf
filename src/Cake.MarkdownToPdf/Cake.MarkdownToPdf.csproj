@@ -23,6 +23,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);PackBuildOutputs</TargetsForTfmSpecificContentInPackage>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>		
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -36,7 +37,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Cake.Core" Version="3.0.0" PrivateAssets="All" />
-		<PackageReference Include="Markdig" Version="0.30.4" />
+		<PackageReference Include="Markdig" Version="0.30.4" PrivateAssets="All"/>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -63,6 +64,9 @@
 	<Target Name="PackBuildOutputs" DependsOnTargets="SatelliteDllsProjectOutputGroup;DebugSymbolsProjectOutputGroup">
 		<ItemGroup>			
 			<TfmSpecificPackageFile Include="$(OutputPath)\**\Cake.MarkdownToPdf.*">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(OutputPath)\**\Markdig.*">
 				<PackagePath>lib\$(TargetFramework)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(OutputPath)\**\Themes\**\*.*">
