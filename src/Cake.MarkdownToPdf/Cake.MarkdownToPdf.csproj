@@ -16,6 +16,7 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/twenzel/Cake.MarkdownToPdf</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/twenzel/Cake.MarkdownToPdf</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
@@ -29,8 +30,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\..\readme.md" Pack="true" PackagePath="." />
-		<None Include="icon.png" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="icon.png" Pack="true" Visible="false" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
