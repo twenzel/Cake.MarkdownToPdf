@@ -29,6 +29,7 @@ namespace Cake.MarkdownToPdf.Internal
         {
             var sb = new StringBuilder();
 
+            sb.Append("--enable-local-file-access ");
             sb.Append($"--image-dpi {settings.ImageDpi} ");
             sb.Append($"--image-quality {settings.ImageQuality} ");
             sb.Append($"--page-size {settings.PageSize} ");
