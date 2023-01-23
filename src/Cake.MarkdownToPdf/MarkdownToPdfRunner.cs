@@ -18,6 +18,7 @@ namespace Cake.MarkdownToPdf
     {
         private readonly ICakeLog _log;
         private readonly IFileSystem _fileSystem;
+        private readonly ICakeEnvironment _environment;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownToPdfRunner"/> class.
@@ -37,6 +38,7 @@ namespace Cake.MarkdownToPdf
         {
             _log = log;
             _fileSystem = fileSystem;
+            _environment = environment;
         }
 
         /// <summary>
@@ -61,22 +63,16 @@ namespace Cake.MarkdownToPdf
                 return;
             }
 
-            string htmlFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"convert{Guid.NewGuid():n}.html");
+            var htmlFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"convert{Guid.NewGuid():n}.html");
+            var html = ConvertMarkdownToHtml(settings);
+            var addinBaseDirectory = GetBaseDirectory();
+            var documentBaseDirectory = GetDocumentBaseDirectory(settings);
 
-            settings.MarkdownPipeline.DebugLog = Console.Out;
-
-            var markdownText = settings.MarkdownText ?? File.ReadAllText(settings.MarkdownFile.FullPath);
-
-            var html = Markdown.ToHtml(markdownText, settings.MarkdownPipeline.Build());
-
-            var baseDirectory = GetBaseDirectory();
-            html = ApplyTheme(html, settings, baseDirectory, settings.WorkingDirectory);
+            html = ApplyTheme(html, settings, addinBaseDirectory, documentBaseDirectory);
 
             try
             {
                 File.WriteAllText(htmlFile, html);
-
-                _log.Debug("Html file written to '{0}'", htmlFile);
 
                 var outDir = _fileSystem.GetDirectory(settings.OutputFile.GetDirectory());
                 if (!outDir.Exists)
@@ -84,7 +80,7 @@ namespace Cake.MarkdownToPdf
 
                 var procSettings = new ProcessSettings
                 {
-                    RedirectStandardOutput = true,
+                    RedirectStandardOutput = true
                 };
 
                 Run(settings, GetArguments(settings, htmlFile), procSettings, null);
@@ -96,6 +92,43 @@ namespace Cake.MarkdownToPdf
                 else if (settings.Debug)
                     _log.Information("Html file written to '{0}'", htmlFile);
             }
+        }
+
+        private static string ConvertMarkdownToHtml(Settings settings)
+        {
+            var markdownText = settings.MarkdownText ?? File.ReadAllText(settings.MarkdownFile.FullPath);
+
+            settings.MarkdownPipeline.DebugLog = Console.Out;
+
+            var html = Markdown.ToHtml(markdownText, settings.MarkdownPipeline.Build());
+            return html;
+        }
+
+        private string GetDocumentBaseDirectory(Settings settings)
+        {
+            var documentBaseDirectory = settings.MarkdownBaseDirectory;
+
+            if (string.IsNullOrEmpty(documentBaseDirectory) && settings.MarkdownFile != null)
+            {
+                documentBaseDirectory = settings.MarkdownFile.GetDirectory().FullPath;
+            }
+
+            if (string.IsNullOrEmpty(documentBaseDirectory))
+            {
+                documentBaseDirectory = settings.WorkingDirectory?.FullPath;
+            }
+
+            if (string.IsNullOrEmpty(documentBaseDirectory))
+            {
+                documentBaseDirectory = _environment.WorkingDirectory?.FullPath;
+            }
+
+            if (string.IsNullOrEmpty(documentBaseDirectory))
+            {
+                documentBaseDirectory = string.Empty;
+            }
+
+            return documentBaseDirectory;
         }
 
         /// <inheritdoc/>
@@ -157,13 +190,13 @@ namespace Cake.MarkdownToPdf
                 return System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
 
-        private string ApplyTheme(string html, Settings settings, string baseDirectory, DirectoryPath workingDirectoryPath)
+        private string ApplyTheme(string html, Settings settings, string addinBaseDirectory, string documentBaseDirectory)
         {
             if (string.IsNullOrEmpty(settings.CssFile))
-                settings.CssFile = System.IO.Path.Combine(baseDirectory, "Themes", settings.Theme.ToString(), "Theme.css");
+                settings.CssFile = System.IO.Path.Combine(addinBaseDirectory, "Themes", settings.Theme.ToString(), "Theme.css");
 
             if (string.IsNullOrEmpty(settings.HtmlTemplateFile))
-                settings.HtmlTemplateFile = System.IO.Path.Combine(baseDirectory, "Themes", settings.Theme.ToString(), "Theme.html");
+                settings.HtmlTemplateFile = System.IO.Path.Combine(addinBaseDirectory, "Themes", settings.Theme.ToString(), "Theme.html");
 
             if (!System.IO.Path.IsPathRooted(settings.CssFile))
                 settings.CssFile = System.IO.Path.GetFullPath(settings.CssFile);
@@ -183,15 +216,15 @@ namespace Cake.MarkdownToPdf
 
             var template = File.ReadAllText(settings.HtmlTemplateFile);
 
-            var workingDirectory = workingDirectoryPath?.FullPath ?? baseDirectory;
+            if (!documentBaseDirectory.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+                documentBaseDirectory += System.IO.Path.DirectorySeparatorChar;
 
-            if (!workingDirectory.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
-                workingDirectory += System.IO.Path.DirectorySeparatorChar;
+            _log.Debug("Use document base directory: {0}", documentBaseDirectory);
 
             return template
                 .Replace("{$html}", html)
                 .Replace("{$cssFile}", settings.CssFile)
-                .Replace("{$docPath}", workingDirectory);
+                .Replace("{$docPath}", documentBaseDirectory);
         }
 
         private static bool CanWriteToOutputFile(string outputFile)

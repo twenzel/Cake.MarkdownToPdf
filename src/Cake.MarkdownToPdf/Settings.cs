@@ -30,6 +30,11 @@ namespace Cake.MarkdownToPdf
         public string MarkdownText { get; set; }
 
         /// <summary>
+        /// Gets or sets the base directory used for assets within the markdown having a relative path
+        /// </summary>
+        public string MarkdownBaseDirectory { get; set; }
+
+        /// <summary>
         /// Gets or sets the output PDF file
         /// </summary>
         public FilePath OutputFile { get; set; }
@@ -58,7 +63,6 @@ namespace Cake.MarkdownToPdf
         /// Settings for the pdf convert
         /// </summary>
         public PdfSettings Pdf { get; } = new PdfSettings();
-
 
         /// <summary>
         /// Calls the UseAdvancedExtensions() on the MarkdownPipelineBuilder.
