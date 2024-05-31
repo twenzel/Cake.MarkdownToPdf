@@ -43,4 +43,4 @@ for:
   - provider: NuGet
     artifact: /NuGet/
     api_key:
-      secure: AJ14IERxVAn6UUsc2lqOpUfhiyvyY60lHfNUUe4baJoG71rRHCwlKVSPmmLjHdxP
+      secure: ZnQ34y7QXlGlikkIiiQrVM5VC/WEJl4or1vUXS91xORl/KHs1XpjySk7rZynrJdl
